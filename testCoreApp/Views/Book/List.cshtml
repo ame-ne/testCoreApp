@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Book>
+@using testCoreApp.Extentions
+@{
+    ViewData["Title"] = "Book's List";
+}
+
+<h2>Book's List</h2>
+
+@foreach (var b in Model)
+{
+<div>
+    <h3>@b.Title</h3>
+    <p><b>Авторы:</b></p>
+    <p>
+        @foreach (var a in b.Authors)
+        {
+            <i>@a.GetFullName(); </i>
+        }
+    </p>
+    <p><b>Жанры:</b></p>
+    <p>
+        @foreach (var g in b.Genres)
+        {
+            <i>@g.Name; </i>
+        }
+    </p>
+    <p><b>Описание:</b> @b.Description</p>
+    <p><b>Страниц:</b> @b.PageSize</p>
+    <hr />
+</div>
+}
