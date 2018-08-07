@@ -13,9 +13,16 @@ namespace testCoreApp.Extentions
             return $"{author?.LastName} {author?.FirstName} {author?.MiddleName}";
         }
 
-        public static string GetShortName(this Author author)
+        public static string GetShortName(this Author author, string symbolIfEmpty = "")
         {
-            return author.GetFullName();
+            if (author == null)
+            {
+                return symbolIfEmpty;
+            }
+
+            return $"{(!string.IsNullOrEmpty(author.LastName) ? author.LastName : "")}" +
+                $"{(!string.IsNullOrEmpty(author.FirstName) ? " " + author.FirstName.Substring(0, 1) + "." : "")}" +
+                $"{(!string.IsNullOrEmpty(author.MiddleName) ? " " + author.MiddleName.Substring(0, 1) + "." : "")}";
         }
     }
 }

@@ -6,26 +6,34 @@
 
 <h2>Book's List</h2>
 
-@foreach (var b in Model)
-{
-<div>
-    <h3>@b.Title</h3>
-    <p><b>Авторы:</b></p>
-    <p>
-        @foreach (var a in b.Authors)
+<table>
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Авторы</th>
+            <th>Жанры</th>
+            <th>Полочный индекс</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var b in Model)
         {
-            <i>@a.GetFullName(); </i>
+            <tr>
+                <td>@b.Title</td>
+                <td>
+                    @foreach (var a in b.Authors)
+                    {
+                        <a href="@a.AuthorId">@a.GetShortName()</a><text>&nbsp;</text>
+                    }
+                </td>
+                <td>
+                    @foreach (var g in b.Genres)
+                    {
+                        <i>@g.Name; </i>
+                    }
+                </td>
+                <td>@b.ShelfIndex</td>
+            </tr>
         }
-    </p>
-    <p><b>Жанры:</b></p>
-    <p>
-        @foreach (var g in b.Genres)
-        {
-            <i>@g.Name; </i>
-        }
-    </p>
-    <p><b>Описание:</b> @b.Description</p>
-    <p><b>Страниц:</b> @b.PageSize</p>
-    <hr />
-</div>
-}
+        </tbody>
+</table>
