@@ -10,9 +10,9 @@ namespace testCoreApp.Models
 {
     public static class SeedData
     {
-        public static void EnsurePopulated(IApplicationBuilder app)
+        public static void EnsurePopulated(ApplicationDbContext context)
         {
-            ApplicationDbContext context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
+            //ApplicationDbContext context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
             context.Database.Migrate();
             if (!context.Authors.Any())
             {
@@ -129,6 +129,7 @@ namespace testCoreApp.Models
                     new BookGenre { Book = context.Books.FirstOrDefault(x => x.Title == "Пикник на обочине"), Genre = context.Genres.FirstOrDefault(x => x.Name == "Фантастическая повесть") }
                 );
             }
+
             context.SaveChanges();
         }
     }

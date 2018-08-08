@@ -3,11 +3,39 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>Boooooooooks</title>
+    <title>Booooooks - @ViewData["Title"]</title>
+    <style>
+        .paging a{
+            padding: 0px 10px;
+            color: aqua;
+        }
+    </style>
+    <link rel="stylesheet"
+          asp-href-include="/lib/bootstrap/dist/***/*.min.css"
+          asp-href-exclude="**/*-reboot*,**/*-grid*" />
 </head>
 <body>
-    <div>
-        @RenderBody()
+    <div class="navbar navbar-dark bg-dark" role="navigation">
+        <a class="navbar-brand" href="/">Book's store</a>
+    </div>
+    <div class="m-1 p-3">
+        <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Authors">Authors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Genre</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Info</a>
+            </li>
+        </ul>
+        <div>
+            @RenderBody()
+        </div>
     </div>
 </body>
 </html>

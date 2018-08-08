@@ -8,31 +8,29 @@ using testCoreApp.Models.ViewModels;
 
 namespace testCoreApp.Controllers
 {
-    public class BookController : Controller
+    public class AuthorController : Controller
     {
         private IBookRepository repository;
-        public int PageSize = 2;
+        public int PageSize = 4;
 
-        public BookController(IBookRepository repo)
+        public AuthorController(IBookRepository repo)
         {
             repository = repo;
         }
 
-        public ViewResult List(string genre, int page = 1) =>
-            View(new BookListViewModel
+        public ViewResult List(int page = 1) =>
+            View(new AuthorListViewModel
             {
-                Books = repository.Books
-                .Where(x => genre == null || x.Genres.Any(g => g.Name == genre))
-                    .OrderBy(x => x.Title)
+                Authors = repository.Authors
+                    .OrderBy(x => x.LastName)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Books.Count()
-                },
-                CurrentGenre = genre
+                    TotalItems = repository.Authors.Count()
+                }
             });
 
         public IActionResult Index()

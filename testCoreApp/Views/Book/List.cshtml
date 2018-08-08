@@ -1,39 +1,52 @@
-﻿@model IEnumerable<Book>
-@using testCoreApp.Extentions
+﻿@model BookListViewModel
 @{
     ViewData["Title"] = "Book's List";
 }
 
 <h2>Book's List</h2>
-
-<table>
-    <thead>
-        <tr>
-            <th>Название</th>
-            <th>Авторы</th>
-            <th>Жанры</th>
-            <th>Полочный индекс</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var b in Model)
-        {
-            <tr>
-                <td>@b.Title</td>
-                <td>
-                    @foreach (var a in b.Authors)
-                    {
-                        <a href="@a.AuthorId">@a.GetShortName()</a><text>&nbsp;</text>
-                    }
-                </td>
-                <td>
-                    @foreach (var g in b.Genres)
-                    {
-                        <i>@g.Name; </i>
-                    }
-                </td>
-                <td>@b.ShelfIndex</td>
-            </tr>
-        }
-        </tbody>
-</table>
+<div class="row">
+    <div class="col-2">
+        d
+    </div>
+    <div class="col-10">
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Авторы</th>
+                    <th scope="col">Жанры</th>
+                    <th scope="col">Полочный индекс</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model.Books)
+                {
+                    @*@Html.Partial("BookSummary", b)*@
+                    <tr>
+                        <td>@b.Title</td>
+                        <td>
+                            @foreach (var a in b.Authors)
+                            {
+                                <a href="@a.AuthorId">@a.GetShortName()</a><text>&nbsp;</text>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var g in b.Genres)
+                            {
+                                <i>@g.Name; </i>
+                            }
+                        </td>
+                        <td>@b.ShelfIndex</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div page-model="@Model.PagingInfo"
+             page-action="List"
+             page-classes-enabled="true"
+             page-class="btn"
+             page-class-normal="btn-secondary"
+             page-class-selected="btn-warning"
+             class="btn-group float-right m-1"></div>
+    </div>
+</div>

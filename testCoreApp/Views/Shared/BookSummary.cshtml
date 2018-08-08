@@ -1,0 +1,18 @@
+﻿@model Book
+
+<tr>
+    <td>@Model.Title</td>
+    <td>
+        @foreach (var a in Model.Authors)
+        {
+            <a href="@a.AuthorId">@a.GetShortName()</a><text>&nbsp;</text>
+        }
+    </td>
+    <td>
+        @foreach (var g in Model.Genres)
+        {
+            <i>@g.Name; </i>
+        }
+    </td>
+    <td>@Model.ShelfIndex</td>
+</tr>

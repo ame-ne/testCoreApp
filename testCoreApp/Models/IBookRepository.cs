@@ -8,5 +8,6 @@ namespace testCoreApp.Models
     public interface IBookRepository
     {
         IQueryable<Book> Books { get; }
+        IQueryable<Author> Authors { get; }
     }
 }

@@ -1,0 +1,21 @@
+﻿@model AuthorListViewModel
+@{
+    ViewData["Title"] = "Author's List";
+}
+
+<h2>Author's List</h2>
+@foreach (var a in Model.Authors)
+{
+    <div>
+        <span>@a.GetShortName()</span>
+    </div>
+}
+
+<div page-model="@Model.PagingInfo"
+        page-action="List"
+        page-classes-enabled="true"
+        page-class="btn"
+        page-class-normal="btn-secondary"
+        page-class-selected="btn-warning"
+        class="btn-group float-right m-1"></div>
+

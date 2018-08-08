@@ -59,5 +59,7 @@ namespace testCoreApp.Models
             //    }
             //}
         }.AsQueryable<Book>();
+
+        public IQueryable<Author> Authors => new List<Author>().AsQueryable();
     }
 }
