@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Genre>
+
+<h2>Genres</h2>
+@foreach (var g in Model) {
+    <a class="btn btn-block @(g.GenreRouteId == ViewBag.SelectedGenre ? "btn-dark" : "btn-secondary")"
+       asp-action="List"
+       asp-controller="Book"
+       asp-route-genre=@g.GenreRouteId
+       asp-route-page="1">
+        @g.Name
+    </a>
+
+}

@@ -13,10 +13,14 @@
     <link rel="stylesheet"
           asp-href-include="/lib/bootstrap/dist/***/*.min.css"
           asp-href-exclude="**/*-reboot*,**/*-grid*" />
+    <link rel="stylesheet" asp-href-include="/lib/fontawesome/web-fonts-with-css/css/*.css" />
 </head>
 <body>
     <div class="navbar navbar-dark bg-dark" role="navigation">
         <a class="navbar-brand" href="/">Book's store</a>
+        <div class="float-right">
+            @await Component.InvokeAsync("CartSummary")
+        </div>
     </div>
     <div class="m-1 p-3">
         <ul class="nav justify-content-center">
@@ -33,9 +37,14 @@
                 <a class="nav-link" href="#">Info</a>
             </li>
         </ul>
-        <div>
-            @RenderBody()
+    </div>
+    <div class="row m-0">
+        <div class="col-2">
+            @await Component.InvokeAsync("NavigationMenu")
         </div>
+        <div class="col-10">
+            @RenderBody()
+        </div>                
     </div>
 </body>
 </html>

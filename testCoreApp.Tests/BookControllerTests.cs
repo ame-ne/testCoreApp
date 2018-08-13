@@ -26,7 +26,7 @@ namespace testCoreApp.Tests
             BookController controller = new BookController(mock.Object);
             controller.PageSize = 2;
 
-            IEnumerable<Book> result = controller.List(3).ViewData.Model as IEnumerable<Book>;
+            IEnumerable<Book> result = controller.List("", 3).ViewData.Model as IEnumerable<Book>;
 
             Book[] booksArr = result.ToArray();
             Assert.True(booksArr.Length == 1);

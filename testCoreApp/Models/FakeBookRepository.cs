@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace testCoreApp.Models
 {
-    public class FakeBookRepository : IBookRepository
+    public class FakeBookRepository //: IBookRepository
     {
         public IQueryable<Book> Books => new List<Book>{
             //new Book()

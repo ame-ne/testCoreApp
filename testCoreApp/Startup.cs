@@ -32,11 +32,19 @@ namespace testCoreApp
             options.UseSqlServer(
                 Configuration["Data:BooksLibrary:ConnectionString"]));
             services.AddTransient<IBookRepository, EFBookRepository>();
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc(
-                //options => 
-                //idk, but
-                //options.MaxModelValidationErrors = 20
+            //options => 
+            //idk, but
+            //options.MaxModelValidationErrors = 20
+            )
+            .AddJsonOptions(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
+
+            services.AddMemoryCache();
+            services.AddSession();
 
             //services.Configure<WebEncoderOptions>(options =>
             //{
@@ -55,20 +63,36 @@ namespace testCoreApp
             app.UseStaticFiles();
             app.UseStatusCodePages();
             //app.UseMvcWithDefaultRoute();
-
+            app.UseSession();
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "paginationAuthor",
                     template: "Authors/Page{page}",
                     defaults: new { Controller = "Author", action = "List" });
                 routes.MapRoute(
-                    name: "paginationBook",
-                    template: "Books/Page{page}",
-                    defaults: new { Controller = "Book", action = "List"});
-                routes.MapRoute(
                     name: null,
                     template: "Authors",
                     defaults: new { Controller = "Author", action = "List", page = 1 });
+
+                routes.MapRoute(
+                    name: null,
+                    template: "{genre}/Page{page:int}",
+                    defaults: new { Controller = "Book", action = "List" });
+                routes.MapRoute(
+                    name: null,
+                    template: "Page{page:int}",
+                    defaults: new { Controller = "Book", action = "List", page = 1 });
+                routes.MapRoute(
+                    name: null,
+                    template: "{genre}",
+                    defaults: new { Controller = "Book", action = "List", page = 1 });
+
+
+
+                routes.MapRoute(
+                    name: null,
+                    template: "",
+                    defaults: new { Controller = "Book", action = "List", page = 1 });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Book}/{action=List}/{id?}");

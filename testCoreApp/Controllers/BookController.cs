@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using testCoreApp.Models;
 using testCoreApp.Models.ViewModels;
 
@@ -18,11 +19,15 @@ namespace testCoreApp.Controllers
             repository = repo;
         }
 
-        public ViewResult List(string genre, int page = 1) =>
-            View(new BookListViewModel
+        public ViewResult List(string genre, int page = 1) {
+            var selectedBooks = repository.Books
+#warning
+                .ToList()
+                .Where(x => genre == null || x.Genres.Any(g => g.GenreRouteId == genre));
+
+            return View(new BookListViewModel
             {
-                Books = repository.Books
-                .Where(x => genre == null || x.Genres.Any(g => g.Name == genre))
+                Books = selectedBooks
                     .OrderBy(x => x.Title)
                     .Skip((page - 1) * PageSize)
                     .Take(PageSize),
@@ -30,10 +35,11 @@ namespace testCoreApp.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Books.Count()
+                    TotalItems = selectedBooks.Count()
                 },
                 CurrentGenre = genre
             });
+        }
 
         public IActionResult Index()
         {

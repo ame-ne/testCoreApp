@@ -6,7 +6,7 @@ using testCoreApp.Models;
 
 namespace testCoreApp.Extentions
 {
-    public static class AuthorExtention
+    public static class AuthorExtensions
     {
         public static string GetFullName(this Author author)
         {
