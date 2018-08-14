@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Book>
+
+@{
+    ViewBag.Title = "Всё";
+    Layout = "_AdminLayout";
+}
+
+<table class="table table-striped table-bordered table-sm">
+    <tr>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Genre</th>
+        <th>Pages</th>
+        <th>ShelfIndex</th>
+        <th>Description</th>
+        <th></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Title</td>
+        <td>
+            @foreach (var a in item.Authors)
+            {
+                @a.GetShortName()<text>&nbsp;</text>
+            }
+        </td>
+        <td>
+            @foreach (var g in item.Genres)
+            {
+                <i>@g.Name; </i>
+            }
+        </td>
+        <td class="text-right">@item.PageSize</td>
+        <td>@item.ShelfIndex</td>
+        <td>@item.Description</td>
+        <td class="text-center">
+            <form asp-action="Delete" method="post">
+                <a asp-action="Edit" class="btn btn-sm btn-warning"
+                   asp-route-bookId="@item.BookId">
+                    Редактировать
+                </a>
+                <input type="hidden" name="BookId" value="@item.BookId" />
+                <button type="submit" class="btn btn-danger btn-sm">
+                    Удалить
+                </button>
+            </form>
+        </td>
+    </tr>
+    }
+</table>
+<div class="text-center">
+    <a asp-action="Create" class="btn btn-primary">Добавить</a>
+</div>

@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.WebEncoders;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Microsoft.AspNetCore.Identity;
 
 namespace testCoreApp
 {
@@ -29,11 +30,18 @@ namespace testCoreApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(
-                Configuration["Data:BooksLibrary:ConnectionString"]));
+                options.UseSqlServer(
+                    Configuration["Data:BooksLibrary:ConnectionString"]));
+
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:BooksIdentity:ConnectionString"]));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddTransient<IBookRepository, EFBookRepository>();
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
             services.AddMvc(
             //options => 
             //idk, but
@@ -64,6 +72,7 @@ namespace testCoreApp
             app.UseStatusCodePages();
             //app.UseMvcWithDefaultRoute();
             app.UseSession();
+            app.UseAuthentication();
             app.UseMvc(routes => {
                 routes.MapRoute(
                     name: "paginationAuthor",

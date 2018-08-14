@@ -10,5 +10,8 @@ namespace testCoreApp.Models
         IQueryable<Book> Books { get; }
         IQueryable<Author> Authors { get; }
         IQueryable<Genre> Genres { get; }
+
+        void SaveBook(Book book);
+        Book DeleteBook(Guid bookId);
     }
 }

@@ -1,0 +1,12 @@
+﻿@model Order
+
+<div asp-validation-summary="All" class="text-danger"></div>
+<form  asp-action="Checkout" method="post">
+    <div class="form-group">
+        <label>Имя:</label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Оформить" />
+    </div>
+</form>

@@ -12,9 +12,10 @@ namespace testCoreApp.Models
     public class Book
     {
         public Guid BookId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Обязательно")]
         public string Title { get; set; }
         public string Description { get; set; }
+        [Range(1, int.MaxValue, ErrorMessage = "Кол-во страниц должно быть больше 0")]
         public int PageSize { get; set; }
         public string ShelfIndex { get; set; }
         [NotMapped]

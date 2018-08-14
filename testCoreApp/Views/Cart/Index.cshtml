@@ -18,7 +18,7 @@
                 <td class="text-center">
                     <form id=@line.Book.BookId asp-action="RemoveFromCart" asp-controller="Cart" method="post">
                         <input type="hidden" name="bookId" value=@line.Book.BookId />
-                        <input type="hidden" name="returnUrl" value=@ViewContext.HttpContext.Request.PathAndQuery() />
+                        <input type="hidden" name="returnUrl" value=@Model.ReturnUrl />
                         <span class="lead">
                             <button type="submit" class="btn btn-warning btn-sm float-right">Убрать</button>
                         </span>
@@ -31,4 +31,10 @@
 
 <div class="text-center">
     <a class="btn btn-primary" href=@Model.ReturnUrl>Продолжить</a>
+    @if (Model.Cart.Lines.Count() > 0)
+    {
+        <a class="btn btn-primary" asp-action="Checkout" asp-controller="Order">
+        Оформить
+    </a>
+    }
 </div>

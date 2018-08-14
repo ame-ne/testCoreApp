@@ -20,11 +20,11 @@ namespace testCoreApp
 
             using (var scope = host.Services.CreateScope())
             {
-                var services = scope.ServiceProvider;
+                var services = scope.ServiceProvider;               
                 try
                 {
-                    var context = services.GetRequiredService<ApplicationDbContext>();
-                    SeedData.EnsurePopulated(context);
+                    SeedData.EnsurePopulated(services);
+                    IdentitySeedData.EnsurePopulated(services);
                 }
                 catch (Exception ex)
                 {
