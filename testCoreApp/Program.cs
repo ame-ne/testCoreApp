@@ -24,7 +24,7 @@ namespace testCoreApp
                 try
                 {
                     SeedData.EnsurePopulated(services);
-                    IdentitySeedData.EnsurePopulated(services);
+                    IdentitySeedData.EnsurePopulated(services).Wait();
                 }
                 catch (Exception ex)
                 {

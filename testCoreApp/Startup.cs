@@ -34,7 +34,8 @@ namespace testCoreApp
                     Configuration["Data:BooksLibrary:ConnectionString"]));
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:BooksIdentity:ConnectionString"]));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                    options.Password.RequireNonAlphanumeric = false)
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
 
@@ -66,14 +67,23 @@ namespace testCoreApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
-            app.UseStatusCodePages();
             //app.UseMvcWithDefaultRoute();
             app.UseSession();
             app.UseAuthentication();
             app.UseMvc(routes => {
+                routes.MapRoute(
+                    name: "Error",
+                    template: "Error",
+                    defaults: new { controller = "Error", action = "Error" });
+
                 routes.MapRoute(
                     name: "paginationAuthor",
                     template: "Authors/Page{page}",

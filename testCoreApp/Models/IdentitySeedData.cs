@@ -11,12 +11,12 @@ namespace testCoreApp.Models
     public static class IdentitySeedData 
     {
         private const string adminUser = "Admin";
-        private const string adminPassword = "1q2w3e";
+        private const string adminPassword = "1qaz!QAZ";
 
-        public static async void EnsurePopulated(IServiceProvider services)
+        public static async Task EnsurePopulated(IServiceProvider services)
         {
             UserManager<IdentityUser> userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-#error disposed
+
             IdentityUser user = await userManager.FindByIdAsync(adminUser);
             if (user == null)
             {

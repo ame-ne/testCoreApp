@@ -263,3 +263,4 @@ __pycache__/
 */wwwroot/lib/bootstrap
 */wwwroot/lib/fontawesome
 */wwwroot/lib/*
+*/Properties/PublishProfiles/*.pubxml
