@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using testCoreApp.Models;
 using testCoreApp.Models.ViewModels;
 
@@ -13,10 +14,12 @@ namespace testCoreApp.Controllers
     {
         private IBookRepository repository;
         public int PageSize = 2;
+        private ILogger<BookController> logger;
 
-        public BookController(IBookRepository repo)
+        public BookController(IBookRepository repo, ILogger<BookController> log)
         {
             repository = repo;
+            logger = log;
         }
 
         public ViewResult List(string genre, int page = 1) {
@@ -43,6 +46,8 @@ namespace testCoreApp.Controllers
 
         public IActionResult Index()
         {
+            logger.LogDebug("111111111111111111111");
+            ViewBag.Msg = "hi from dark side";
             return View();
         }
     }
