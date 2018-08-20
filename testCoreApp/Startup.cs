@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using testCoreApp.Infrastructure;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Routing.Constraints;
+using Microsoft.AspNetCore.Routing;
 
 namespace testCoreApp
 {
@@ -57,6 +59,9 @@ namespace testCoreApp
 
             services.AddMemoryCache();
             services.AddSession();
+
+            services.Configure<RouteOptions>(options => 
+                options.LowercaseUrls = true);
 
             //services.Configure<WebEncoderOptions>(options =>
             //{
@@ -101,8 +106,9 @@ namespace testCoreApp
 
                 routes.MapRoute(
                     name: null,
-                    template: "{genre}/Page{page:int}",
-                    defaults: new { Controller = "Book", action = "List" });
+                    template: "{genre}/Page{page}",
+                    defaults: new { Controller = "Book", action = "List" },
+                    constraints: new { page = new IntRouteConstraint()});
                 routes.MapRoute(
                     name: null,
                     template: "Page{page:int}",
