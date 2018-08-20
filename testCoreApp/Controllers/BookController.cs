@@ -26,7 +26,7 @@ namespace testCoreApp.Controllers
             var selectedBooks = repository.Books
 #warning
                 .ToList()
-                .Where(x => genre == null || x.Genres.Any(g => g.GenreRouteId == genre));
+                .Where(x => genre == null || x.Genres.Any(g => g.GenreRouteId == genre));           
 
             return View(new BookListViewModel
             {
@@ -48,7 +48,8 @@ namespace testCoreApp.Controllers
         {
             logger.LogDebug("111111111111111111111");
             ViewBag.Msg = "hi from dark side";
-            return View();
+            // return View((object)"a a a");
+            return Json(new[] { "a", "b", "c"});
         }
     }
 }

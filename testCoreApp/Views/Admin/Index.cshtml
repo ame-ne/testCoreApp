@@ -37,7 +37,7 @@
         <td class="text-center">
             <form asp-action="Delete" method="post">
                 <a asp-action="Edit" class="btn btn-sm btn-warning"
-                   asp-route-bookId="@item.BookId">
+                   asp-route-bookId="@item.BookRouteId">
                     Редактировать
                 </a>
                 <input type="hidden" name="BookId" value="@item.BookId" />

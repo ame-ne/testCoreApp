@@ -118,7 +118,9 @@ namespace testCoreApp
                     template: "{genre}",
                     defaults: new { Controller = "Book", action = "List", page = 1 });
 
-
+                routes.MapRoute(
+                    name: "",
+                    template: "{controller}/{action}/{bookId?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action}/{id?}");
