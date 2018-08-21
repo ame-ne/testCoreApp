@@ -1,4 +1,4 @@
-﻿
+﻿@model string
 @{
     Layout = null;
 }
@@ -13,5 +13,6 @@
 </head>
 <body>
     <h2 class="text-danger">ERROR</h2>
+    <div>@TempData["errorMsg"]</div>
 </body>
 </html>

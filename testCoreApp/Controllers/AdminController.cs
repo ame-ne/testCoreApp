@@ -11,7 +11,7 @@ namespace testCoreApp.Controllers
     [Authorize]
     public class AdminController : Controller
     {
-        IBookRepository repository;
+        private IBookRepository repository;
 
         public AdminController(IBookRepository repo)
         {

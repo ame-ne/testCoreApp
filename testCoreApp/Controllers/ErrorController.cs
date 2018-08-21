@@ -13,6 +13,10 @@ namespace testCoreApp.Controllers
             return View();
         }
 
-        public ViewResult Error() => View();
+        public ViewResult Error(string error)
+        {
+            TempData["errorMsg"] = error;
+            return View();
+        }
     }
 }

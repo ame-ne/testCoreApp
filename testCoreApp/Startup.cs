@@ -48,10 +48,14 @@ namespace testCoreApp
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IOrderRepository, EFOrderRepository>();
+
+            services.AddSingleton<TestDependencyEntity>();
+            services.AddScoped<CustomExceptionAttribute>();
             services.AddMvc(
-            //options => 
+            options => 
             //idk, but
             //options.MaxModelValidationErrors = 20
+                options.Filters.AddService(typeof(CustomExceptionAttribute))
             )
             .AddJsonOptions(
                 options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
