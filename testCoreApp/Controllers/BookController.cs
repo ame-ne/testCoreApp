@@ -14,7 +14,7 @@ using testCoreApp.Models.ViewModels;
 
 namespace testCoreApp.Controllers
 {
-    [Timer]
+    //[Timer]
     //[CustomException]
     public class BookController : Controller
     {
@@ -62,7 +62,7 @@ namespace testCoreApp.Controllers
             //return Json(new[] { "a", "b", "c"});
             int i = 0;
             ViewBag.errorAction = 5 / i;
-            return View();
+            return View();            
         }
     }
 }
