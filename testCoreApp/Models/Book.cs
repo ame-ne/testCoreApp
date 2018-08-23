@@ -6,11 +6,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using testCoreApp.Extentions;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace testCoreApp.Models
 {
     public class Book
     {
+        //[BindNever]
         public Guid BookId { get; set; }
         [Required(ErrorMessage = "Обязательно")]
         public string Title { get; set; }

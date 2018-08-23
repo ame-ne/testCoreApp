@@ -23,9 +23,9 @@ namespace testCoreApp.Controllers
             return View(repository.Books);
         }
 
-        public ViewResult Edit(string bookId)
+        public ViewResult Edit(string bookRouteId)
         {
-            return View(repository.Books.FirstOrDefault(b => b.BookRouteId == bookId));
+            return View(repository.Books.FirstOrDefault(b => b.BookRouteId == bookRouteId));
         }
 
         [HttpPost]
