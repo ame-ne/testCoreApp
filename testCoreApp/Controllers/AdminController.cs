@@ -31,6 +31,7 @@ namespace testCoreApp.Controllers
         [HttpPost]
         public IActionResult Edit(Book book)
         {
+            var modState = ModelState.GetValidationState(nameof(Book.Title));
             if (ModelState.IsValid)
             {
                 repository.SaveBook(book);

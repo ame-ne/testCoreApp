@@ -53,15 +53,17 @@ namespace testCoreApp.Controllers
         }
 
         //[HttpsOnly]
-        public IActionResult Index([FromServices]TestDependencyEntity ent)
+        public IActionResult Index([FromServices]TestDependencyEntity ent, [FromHeader]string accept)
         {
             logger.LogDebug("111111111111111111111");
             ViewBag.Msg = "hi from dark side";            
             ViewBag.testEntGuid = ent.EntityGuid;
             ViewBag.testControllerContext = ControllerContext?.HttpContext?.Session?.Id == cc?.HttpContext?.Session?.Id;
+            ViewBag.accept = accept;
             //return Json(new[] { "a", "b", "c"});
             int i = 0;
-            ViewBag.errorAction = 5 / i;
+            //ViewBag.errorAction = 5 / i;
+            ViewBag.currUser = HttpContext.User.Identity.Name;
             return View();            
         }
     }
