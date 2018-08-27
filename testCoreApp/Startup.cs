@@ -39,13 +39,14 @@ namespace testCoreApp
                     Configuration["Data:BooksLibrary:ConnectionString"]));
 
             services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["Data:BooksIdentity:ConnectionString"]));
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<AppUser, IdentityRole>(options =>
                     {
                         options.Password.RequireNonAlphanumeric = false;
                         options.User.RequireUniqueEmail = true;
                     })
                 .AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
+            services.AddTransient<PasswordHasher<AppUser>>();
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Account/Login");
             services.AddTransient<IBookRepository, EFBookRepository>();
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));

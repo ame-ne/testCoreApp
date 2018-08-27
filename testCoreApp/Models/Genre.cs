@@ -12,8 +12,11 @@ namespace testCoreApp.Models
     public class Genre
     {
         public Guid GenreId { get; set; }
+
         [Required]
+        [Display(Name = "Название")]
         public string Name { get; set; }
+
         [NotMapped]
         public string GenreRouteId
         {
@@ -26,8 +29,15 @@ namespace testCoreApp.Models
         }
 
         private ICollection<BookGenre> BookGenre { get; } = new List<BookGenre>();
+
         [NotMapped]
         [JsonIgnore]
+        [Display(Name = "Фамилия")]
         public IEnumerable<Book> Books => BookGenre.Select(rel => rel.Book);
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

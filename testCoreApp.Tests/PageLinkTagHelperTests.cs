@@ -47,7 +47,7 @@ namespace testCoreApp.Tests
                 new TagHelperAttributeList(),
                 (cache, encoder) => Task.FromResult(content.Object));
 
-            helper.Process(ctx, output);
+            helper.ProcessAsync(ctx, output);
 
             Assert.Equal(@"<a href=""Test/Page1"">Первая</a>"
                  + @"<a href=""Test/Page2"">Страница 2</a>"

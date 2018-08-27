@@ -17,14 +17,11 @@
 </head>
 <body class="m-1 p-1">
     <div class="navbar navbar-dark bg-dark" role="navigation">
-        <a class="navbar-brand" href="/">SAMPLE TEXT</a>
-        <div class="bg-info p-2 row">
-            <div class="col">
-                <h4>@ViewBag.Title</h4>
-            </div>
-            <div class="col-2">
+        <a class="navbar-brand" href="/">ADMIN - @ViewBag.Title</a>
+        <div class="p-2 row">
+            <div class="float-right">
                 <a class="btn btn-sm btn-primary"
-                   asp-action="Logout" asp-controller="Account">Log Out</a>
+                   asp-action="Logout" asp-controller="Account">Выход</a>
             </div>
         </div>
     </div>
@@ -44,7 +41,6 @@
             </li>
         </ul>
     </div>
-    <div class="bg-info p-2"><h4>@ViewBag.Title</h4></div>
     @if (TempData["message"] != null)
     {
         <div class="alert alert-success">@TempData["message"]</div>

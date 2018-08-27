@@ -16,13 +16,13 @@ namespace testCoreApp.Models
 
         public static async Task EnsurePopulated(IServiceProvider services)
         {
-            UserManager<IdentityUser> userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+            UserManager<AppUser> userManager = services.GetRequiredService<UserManager<AppUser>>();
             RoleManager<IdentityRole> roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-            IdentityUser user = await userManager.FindByNameAsync(adminUserName);
+            AppUser user = await userManager.FindByNameAsync(adminUserName);
             if (user == null)
             {
-                user = new IdentityUser(adminUserName);
+                user = new AppUser(adminUserName);
                 await userManager.CreateAsync(user, adminUserPassword);
             }
             if (string.IsNullOrEmpty(user.Email))

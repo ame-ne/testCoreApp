@@ -1,0 +1,43 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewBag.Title = "Пользователи";
+    Layout = "_AdminLayout";
+}
+
+
+<table class="table table-striped table-bordered table-sm">
+    <tr>
+        <th>№</th>
+        <th>Логин</th>
+        <th>Email</th>
+        <th>ФИО</th>
+        <th>Роли</th>
+        <th></th>
+    </tr>
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var el = Model.ElementAt(i);
+        <tr>
+            <td>@(i+1)</td>
+            <td>@el.UserName</td>
+            <td>@el.Email</td>
+            <td>@el.GetFullName()</td>
+            <td><span user-id=@el.Id></span></td>
+            <td class="text-center">
+                <form asp-action="DeleteUser" method="post">
+                    <a asp-action="EditUser" class="btn btn-sm btn-warning" asp-route-id=@el.Id>
+                        Редактировать
+                    </a>
+                    <input type="hidden" name="id" value=@el.Id />
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+<div class="text-center">
+    <a asp-action="CreateUser" class="btn btn-primary">Добавить</a>
+</div>

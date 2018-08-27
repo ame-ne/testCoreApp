@@ -31,11 +31,27 @@ namespace testCoreApp.Controllers
             logger = log;
         }
 
-        public ViewResult List(string genre, int page = 1) {
+        public ViewResult List(string searchQuery, string genre, int page = 1)
+        {
             var selectedBooks = repository.Books
 #warning
                 .ToList()
                 .Where(x => genre == null || x.Genres.Any(g => g.GenreRouteId == genre));
+
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                var bookProps = typeof(Book).GetProperties().Where(x => x.GetCustomAttributes(typeof(DisableSearchAttribute), false).Count() == 0);
+                selectedBooks = selectedBooks
+                    .Where(book =>
+                        bookProps.Any(property =>
+                            (property.PropertyType.IsGenericType
+                                ? (property.GetValue(book, null) as IEnumerable<object>)?.Any(value => value.ToString().ToLower().Contains(searchQuery))
+                                : (property.GetValue(book, null)?.ToString().ToLower().Contains(searchQuery)))
+                            ?? false));
+                TempData["searchQuery"] = searchQuery;
+            }
+
             return View(new BookListViewModel
             {
                 Books = selectedBooks
@@ -51,6 +67,25 @@ namespace testCoreApp.Controllers
                 CurrentGenre = genre
             });
         }
+
+        //[HttpGet]
+        //public ViewResult Search(string searchQuery, int page = 1)
+        //{
+        //    var books = repository.Books;
+        //    var model = new BookListViewModel
+        //    {
+        //        Books = books.OrderBy(x => x.Title)
+        //        .Skip((page - 1) * PageSize)
+        //        .Take(PageSize),
+        //        PagingInfo = new PagingInfo
+        //        {
+        //            CurrentPage = page,
+        //            ItemsPerPage = PageSize,
+        //            TotalItems = books.Count()
+        //        }
+        //    };
+        //    return View(nameof(List), model);
+        //}
 
         //[HttpsOnly]
         public IActionResult Index([FromServices]TestDependencyEntity ent, [FromHeader]string accept)

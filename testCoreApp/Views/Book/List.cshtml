@@ -4,6 +4,15 @@
 }
 
 <h2>Book's List</h2>
+<div class="float-right">
+    <form asp-action="List" method="get">
+        <div class="form-group">
+            <input type="text" name="searchQuery" value=@TempData["searchQuery"] />
+            <button class="btn btn-primary" type="submit">Найти</button>
+            <a asp-action="List" asp-route-genre=@Model.CurrentGenre class="btn btn-primary">Очистить</a>
+        </div>
+    </form>
+</div>
 <table class="table table-bordered">
     <thead class="thead-dark">
         <tr>
@@ -38,7 +47,7 @@
                         <input type="hidden" name="bookId" value=@b.BookId />
                         <input type="hidden" name="returnUrl" value=@ViewContext.HttpContext.Request.PathAndQuery() />
                         <span class="lead">
-                            <button type="submit" class="btn btn-warning btn-sm float-right">Взять</button>
+                            <button type="submit" class="btn btn-primary btn-sm float-right">Взять</button>
                         </span>
                     </form>
                 </td>
@@ -53,4 +62,5 @@
              page-class-normal="btn-secondary"
              page-class-selected="btn-dark"
              page-url-genre=@Model.CurrentGenre
+             page-url-searchQuery=@TempData["searchQuery"]
              class="btn-group float-right m-1"></div>

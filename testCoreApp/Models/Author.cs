@@ -12,9 +12,16 @@ namespace testCoreApp.Models
     public class Author
     {
         public Guid AuthorId { get; set; }
+
+        [Display(Name = "Имя")]
         public string FirstName { get; set; }
+
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
+
+        [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
+
         [NotMapped]
         public string AuthorRouteId
         {
@@ -27,8 +34,15 @@ namespace testCoreApp.Models
         }
 
         private ICollection<BookAuthor> BookAuthor { get; } = new List<BookAuthor>();
+
         [NotMapped]
         [JsonIgnore]
+        [Display(Name = "Книги")]
         public IEnumerable<Book> Books => BookAuthor.Select(rel => rel.Book);
+
+        public override string ToString()
+        {
+            return this.GetFullName();
+        }
     }
 }

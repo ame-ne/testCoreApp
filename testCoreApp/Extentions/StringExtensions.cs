@@ -2,11 +2,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using testCoreApp.Models;
 
 namespace testCoreApp.Extentions
 {
     public static class StringExtensions
     {
+        public static string GetFullName(this Author author)
+        {
+            return $"{author?.LastName} {author?.FirstName} {author?.MiddleName}";
+        }
+
+        public static string GetShortName(this Author author, string symbolIfEmpty = "")
+        {
+            if (author == null)
+            {
+                return symbolIfEmpty;
+            }
+
+            return $"{(!string.IsNullOrEmpty(author.LastName) ? author.LastName : "")}" +
+                $"{(!string.IsNullOrEmpty(author.FirstName) ? " " + author.FirstName.Substring(0, 1) + "." : "")}" +
+                $"{(!string.IsNullOrEmpty(author.MiddleName) ? " " + author.MiddleName.Substring(0, 1) + "." : "")}";
+        }
+
+        public static string GetFullName(this AppUser user)
+        {
+            return $"{user?.LastName} {user?.FirstName} {user?.MiddleName}";
+        }
+
+        public static string GetShortName(this AppUser user, string symbolIfEmpty = "")
+        {
+            if (user == null)
+            {
+                return symbolIfEmpty;
+            }
+
+            return $"{(!string.IsNullOrEmpty(user.LastName) ? user.LastName : "")}" +
+                $"{(!string.IsNullOrEmpty(user.FirstName) ? " " + user.FirstName.Substring(0, 1) + "." : "")}" +
+                $"{(!string.IsNullOrEmpty(user.MiddleName) ? " " + user.MiddleName.Substring(0, 1) + "." : "")}";
+        }
+
         private static Dictionary<char, string> data = new Dictionary<char, string>
         {
             { 'а', "a"},
