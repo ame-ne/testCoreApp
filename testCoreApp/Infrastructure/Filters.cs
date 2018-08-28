@@ -21,7 +21,7 @@ namespace testCoreApp.Infrastructure
         }
     }
 
-    public class TimerAttribute: ActionFilterAttribute
+    public class TimerAttribute : ActionFilterAttribute
     {
         private Stopwatch timer;
 

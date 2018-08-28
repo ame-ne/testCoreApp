@@ -8,10 +8,10 @@
                 @Model.Lines.Sum(x=>x.Quantity) шт.
             </small>
         }
-        <a class="btn btn-sm btn-secondary navbar-brand"
+        <a class="btn btn-sm btn-outline-primary navbar-brand"
            asp-controller="Cart"
            asp-action="Index"
            asp-route-returnUrl=@ViewContext.HttpContext.Request.PathAndQuery() >
-            <i class="fa fa-shopping-cart"></i>
+            <i class="fa fa-shopping-cart text-primary"></i>
         </a>
     </div>

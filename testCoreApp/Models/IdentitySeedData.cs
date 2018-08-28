@@ -13,6 +13,9 @@ namespace testCoreApp.Models
         private const string adminUserName = "Admin";
         private const string adminUserPassword = "1qaz!QAZ";
         private const string adminRoleName = "administrator";
+        private const string workerRoleName = "worker";
+        private const string userRoleName = "user";
+        private static string[] appRoleNames = new string[] { adminRoleName, workerRoleName, userRoleName };
 
         public static async Task EnsurePopulated(IServiceProvider services)
         {
@@ -31,18 +34,26 @@ namespace testCoreApp.Models
                 await userManager.UpdateAsync(user);
             }
 
-            IdentityRole adminRole = await roleManager.FindByNameAsync(adminRoleName);
-            if (adminRole == null)
-            {
-                adminRole = new IdentityRole(adminRoleName);
-                await roleManager.CreateAsync(adminRole);
-            }
+            await AddRolesAsync(roleManager);
 
             if (await userManager.IsInRoleAsync(user, adminRoleName) == false)
             {
                 await userManager.AddToRoleAsync(user, adminRoleName);
             }
 
+        }
+
+        private static async Task AddRolesAsync(RoleManager<IdentityRole> roleManager)
+        {
+            foreach(var roleName in appRoleNames)
+            {
+                IdentityRole roleFromDB = await roleManager.FindByNameAsync(roleName);
+                if (roleFromDB == null)
+                {
+                    roleFromDB = new IdentityRole(roleName);
+                    await roleManager.CreateAsync(roleFromDB);
+                }
+            }
         }
     }
 }

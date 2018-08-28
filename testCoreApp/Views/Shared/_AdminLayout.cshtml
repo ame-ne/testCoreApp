@@ -20,8 +20,9 @@
         <a class="navbar-brand" href="/">ADMIN - @ViewBag.Title</a>
         <div class="p-2 row">
             <div class="float-right">
-                <a class="btn btn-sm btn-primary"
-                   asp-action="Logout" asp-controller="Account">Выход</a>
+                @if (User.Identity.IsAuthenticated) {
+                <a class="btn btn-sm btn-primary" asp-action="Logout" asp-controller="Account">Выход</a>
+                }
             </div>
         </div>
     </div>
@@ -39,6 +40,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Info</a>
             </li>
+            @if (User.IsInRole("administrator"))
+            {
+            <li class="nav-item">
+                <a class="nav-link" asp-action="UsersList">Users</a>
+            </li>
+            }
         </ul>
     </div>
     @if (TempData["message"] != null)

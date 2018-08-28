@@ -14,12 +14,14 @@ namespace testCoreApp.Controllers
     {
         private IBookRepository repository;
         private UserManager<AppUser> userManager;
+        private RoleManager<IdentityRole> roleManager;
         private IPasswordHasher<AppUser> passwordHasher;
 
-        public AdminController(IBookRepository repo, UserManager<AppUser> manager, IPasswordHasher<AppUser> hasher)
+        public AdminController(IBookRepository repo, UserManager<AppUser> uManager, RoleManager<IdentityRole> rManager, IPasswordHasher<AppUser> hasher)
         {
             repository = repo;
-            userManager = manager;
+            userManager = uManager;
+            roleManager = rManager;
             passwordHasher = hasher;
         }
 
@@ -74,30 +76,90 @@ namespace testCoreApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUser(AppUser user)
+        public async Task<IActionResult> EditUser(AppUser user, string[] role)
         {
+            var userFromDB = await userManager.FindByIdAsync(user.Id);
+            IdentityResult result = null;
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(user.TempPassword))
+                if (string.IsNullOrEmpty(user.Id) || userFromDB == null)
                 {
-                    user.PasswordHash = passwordHasher.HashPassword(user, user.TempPassword);
-                    user.TempPassword = string.Empty;
-                }
-                var result = await userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    TempData["message"] = $"Пользователь {user.UserName} сохранён";
-                    return RedirectToAction("UsersList");
+                    result = await userManager.CreateAsync(user, user.TempPassword);
+                    if (result.Succeeded)
+                    {
+                        if (role != null && role.Length > 0)
+                        {
+                            var addedUser = await userManager.FindByNameAsync(user.UserName);
+                            await AddRoles(addedUser, role);
+                            if (ModelState.IsValid)
+                            {
+                                TempData["message"] = $"Пользователь {user.UserName} создан";
+                                return RedirectToAction("UsersList");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
                 }
                 else
                 {
-                    foreach (var error in result.Errors)
+                    if (!string.IsNullOrEmpty(user.TempPassword))
                     {
-                        ModelState.AddModelError("", error.Description);
+                        userFromDB.PasswordHash = passwordHasher.HashPassword(user, user.TempPassword);
+                        user.TempPassword = string.Empty;
+                    }
+                    userFromDB.SecurityStamp = Guid.NewGuid().ToString();
+                    userFromDB.FirstName = user.FirstName;
+                    userFromDB.MiddleName = user.MiddleName;
+                    userFromDB.LastName = user.LastName;
+                    userFromDB.UserName = user.UserName;
+                    userFromDB.Email = user.Email;
+                    result = await userManager.UpdateAsync(userFromDB);
+                    if (result.Succeeded)
+                    {
+                        if (role != null && role.Length > 0)
+                        {
+                            var addedUser = await userManager.FindByNameAsync(user.UserName);
+                            await AddRoles(addedUser, role);
+                            if (ModelState.IsValid)
+                            {
+                                TempData["message"] = $"Пользователь {user.UserName} сохранён";
+                                return RedirectToAction("UsersList");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        AddErrors(result);
                     }
                 }
             }
             return View(user);
+        }
+
+        private async Task AddRoles(AppUser user, string[] roles)
+        {
+            foreach(var role in roles)
+            {
+                if (await roleManager.FindByNameAsync(role) != null && !await userManager.IsInRoleAsync(user, role))
+                {
+                    var result = await userManager.AddToRoleAsync(user, role);
+                    if (!result.Succeeded)
+                    {
+                        AddErrors(result);
+                    }
+                }
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
         }
 
         public ViewResult CreateUser()
