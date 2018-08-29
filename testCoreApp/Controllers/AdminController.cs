@@ -90,7 +90,7 @@ namespace testCoreApp.Controllers
                         if (role != null && role.Length > 0)
                         {
                             var addedUser = await userManager.FindByNameAsync(user.UserName);
-                            await AddRoles(addedUser, role);
+                            await ManageUserRoles(addedUser, role);
                             if (ModelState.IsValid)
                             {
                                 TempData["message"] = $"Пользователь {user.UserName} создан";
@@ -122,7 +122,7 @@ namespace testCoreApp.Controllers
                         if (role != null && role.Length > 0)
                         {
                             var addedUser = await userManager.FindByNameAsync(user.UserName);
-                            await AddRoles(addedUser, role);
+                            await ManageUserRoles(addedUser, role);
                             if (ModelState.IsValid)
                             {
                                 TempData["message"] = $"Пользователь {user.UserName} сохранён";
@@ -139,17 +139,34 @@ namespace testCoreApp.Controllers
             return View(user);
         }
 
-        private async Task AddRoles(AppUser user, string[] roles)
+        private async Task ManageUserRoles(AppUser user, string[] roles)
         {
+            IdentityResult result = null;
+            var userRoles = await userManager.GetRolesAsync(user);
             foreach(var role in roles)
             {
-                if (await roleManager.FindByNameAsync(role) != null && !await userManager.IsInRoleAsync(user, role))
+                if (await roleManager.FindByNameAsync(role) != null)
                 {
-                    var result = await userManager.AddToRoleAsync(user, role);
-                    if (!result.Succeeded)
+                    if (!await userManager.IsInRoleAsync(user, role))
+                    {
+                        result = await userManager.AddToRoleAsync(user, role);
+                    }
+                    if (result != null && !result.Succeeded)
                     {
                         AddErrors(result);
                     }
+                }
+            }
+
+            foreach(var userRole in userRoles)
+            {
+                if (!roles.Contains(userRole))
+                {
+                    result = await userManager.RemoveFromRoleAsync(user, userRole);
+                }
+                if (result != null && !result.Succeeded)
+                {
+                    AddErrors(result);
                 }
             }
         }

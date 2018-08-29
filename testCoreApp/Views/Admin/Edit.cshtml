@@ -27,7 +27,12 @@
     </div>
     <div class="form-group">
         <label asp-for="Available"></label>
-        <input asp-for="Available" class="form-control" />
+        @if (User.IsInRole("worker"))
+        {
+            <input asp-for="Available" class="form-control" />
+        } else {
+            <div class="form-control">@Model.Available</div>
+        }
     </div>
     <div class="text-center">
         <button class="btn btn-primary" type="submit">Сохранить</button>

@@ -20,6 +20,7 @@
             <th scope="col">Авторы</th>
             <th scope="col">Жанры</th>
             <th scope="col">Полочный индекс</th>
+            <th scope="col">Доступно</th>
             <th scope="col">Взять</th>
         </tr>
     </thead>
@@ -42,7 +43,9 @@
                     }
                 </td>
                 <td>@b.ShelfIndex</td>
+                <td>@b.Available</td>
                 <td>
+                    @if (b.Available > 0) {
                     <form id=@b.BookId asp-action="AddToCart" asp-controller="Cart" method="post">
                         <input type="hidden" name="bookId" value=@b.BookId />
                         <input type="hidden" name="returnUrl" value=@ViewContext.HttpContext.Request.PathAndQuery() />
@@ -50,6 +53,7 @@
                             <button type="submit" class="btn btn-primary btn-sm float-right">Взять</button>
                         </span>
                     </form>
+                    }
                 </td>
             </tr>
         }

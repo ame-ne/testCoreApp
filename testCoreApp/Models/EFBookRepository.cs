@@ -46,6 +46,7 @@ namespace testCoreApp.Models
                     dbEntry.PageSize = book.PageSize;
                     dbEntry.ShelfIndex = book.ShelfIndex;
                     dbEntry.Description = book.Description;
+                    dbEntry.Available = book.Available;
                 }
             }
             context.SaveChanges();

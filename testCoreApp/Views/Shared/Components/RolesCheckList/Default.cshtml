@@ -1,10 +1,10 @@
-﻿@model IEnumerable<IdentityRole>
+﻿@model Dictionary<string, bool>
 
 @foreach (var role in Model)
 {
 <ul class="d-inline-block list-unstyled">
     <li class="mr-4">
-        <input type="checkbox" name="role" id="role" value=@role /> @role
+        <input type="checkbox" name="role" id="role" value=@role.Key checked=@role.Value /> @role.Key
     </li>
 </ul>
 }

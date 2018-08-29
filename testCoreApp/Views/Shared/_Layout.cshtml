@@ -27,12 +27,19 @@
         });
     </script>
 </head>
-<body>
+<body class="m-1 p-1">
     <div class="navbar navbar-dark bg-dark" role="navigation">
         <a class="navbar-brand" href="/">SAMPLE TEXT</a>
         <div class="float-right row mr-2">
             @await Component.InvokeAsync("CartSummary")
-            <a asp-action="Login" asp-controller="Account" class="btn btn-outline-primary">Вход</a>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <a asp-action="Login" asp-controller="Account" class="btn btn-outline-primary">Вход</a>
+            }
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="btn btn-outline-primary" asp-action="Logout" asp-controller="Account">Выход</a>
+            }
         </div>
     </div>
     <div class="m-1 p-3">
